@@ -8,6 +8,7 @@ const TIME_STEP: f32 = 1. / 60.;
 struct Textures {
     player_texture: Handle<Image>,
 }
+
 #[derive(Component)]
 struct Player;
 #[derive(Component)]
@@ -95,17 +96,17 @@ fn move_player(
     mut query: Query<(&PlayerSpeed, &mut Transform), (With<Player>)>,
     time: Res<Time>
 ) {
-    for (speed, mut transform) in query.iter_mut() {
-        let dir = if keyboard_input.pressed(KeyCode::A) {
-            -1.
-        } else if keyboard_input.pressed(KeyCode::D) {
-            1.
-        } else {
-            0.
-        };  
+    let (speed, mut transform) = query.single_mut();
+    let dir = if keyboard_input.pressed(KeyCode::A) {
+        -1.
+    } else if keyboard_input.pressed(KeyCode::D) {
+        1.
+    } else {
+        0.
+    };  
 
-        transform.translation.x += speed.0 * dir * time.delta_seconds();
-    }
+    transform.translation.x += speed.0 * dir * time.delta_seconds();
+    
         
     
 }
